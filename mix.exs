@@ -26,9 +26,9 @@ defmodule AvailableProcesses.Mixfile do
   end
 
   defp run_job([how_many_jobs]) do
-    :pong = Node.ping(:"n1@mmmries-pro")
-    :pong = Node.ping(:"n2@mmmries-pro")
-    :pong = Node.ping(:"n3@mmmries-pro")
+    :pong = Node.ping(:"n1@localhost")
+    :pong = Node.ping(:"n2@localhost")
+    :pong = Node.ping(:"n3@localhost")
 
     how_many_jobs = String.to_integer(how_many_jobs)
 
