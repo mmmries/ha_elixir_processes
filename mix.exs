@@ -25,14 +25,10 @@ defmodule AvailableProcesses.Mixfile do
     []
   end
 
+  # Run a set of jobs, update them and finish them
   defp run_job([how_many_jobs]) do
-    :pong = Node.ping(:"n1@localhost")
-    :pong = Node.ping(:"n2@localhost")
-    :pong = Node.ping(:"n3@localhost")
-
-    how_many_jobs = String.to_integer(how_many_jobs)
-
-    job_ids = Enum.map((1..how_many_jobs), &( "start#{&1}" ))
+    connect_to_servers
+    job_ids = how_many_to_job_ids(how_many_jobs)
     start_jobs(job_ids)
     IO.puts "started all the jobs, running updates now"
     :timer.sleep(5_000)
@@ -55,5 +51,16 @@ defmodule AvailableProcesses.Mixfile do
       [^update_msg, ^job_id] = Job.finish(job_id)
       IO.puts "checked #{job_id}"
     end)
+  end
+
+  # Helper function
+  defp connect_to_servers do
+    :pong = Node.ping(:"n1@localhost")
+    :pong = Node.ping(:"n2@localhost")
+    :pong = Node.ping(:"n3@localhost")
+  end
+  defp how_many_to_job_ids(how_many) do
+    how_many = String.to_integer(how_many)
+    Enum.map((1..how_many), &( "start#{&1}" ))
   end
 end
