@@ -1,0 +1,2 @@
+%{"gen_leader": {:hex, :gen_leader, "0.1.0", "4eff42117a135191a4cbeeb3dc8f7a288197a3ba19d29fad21eb301b62891a62", [:rebar3], []},
+  "gproc": {:hex, :gproc, "0.6.1", "4579663e5677970758a05d8f65d13c3e9814ec707ad51d8dcef7294eda1a730c", [:rebar3], []}}

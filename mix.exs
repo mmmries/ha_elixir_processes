@@ -6,13 +6,16 @@ defmodule AvailableProcesses.Mixfile do
      version: "0.1.0",
      elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
+     start_permanent: true,
      deps: deps(),
      aliases: aliases()]
   end
 
   def application do
-    [applications: [:logger]]
+    [
+      applications: [:logger, :gproc],
+      mod: {AvailableProcesses, []},
+    ]
   end
 
   defp aliases do
@@ -23,7 +26,10 @@ defmodule AvailableProcesses.Mixfile do
   end
 
   defp deps do
-    []
+    [
+      {:gen_leader, "~> 0.1.0"},
+      {:gproc, "~> 0.6.1"},
+    ]
   end
 
   # Run a set of jobs, update them and finish them
