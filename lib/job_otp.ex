@@ -23,7 +23,7 @@ defmodule Job.Otp do
 
   def init(map) do
     Process.flag(:trap_exit, true)
-    :timer.send_after(30_000, :cleanup)
+    :timer.send_after(300_000, :cleanup)
     kickoff_hard_work(map)
     :gproc.reg({:p, :g, map.job_id})
     {:ok, map}
