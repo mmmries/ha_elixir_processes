@@ -25,3 +25,20 @@ Then run the test script by running:
 `$ elixir --sname c1@localhost --cookie test -S mix run_job 10`
 
 This will start 10 jobs, send updates to all 10 then finish all 10 and check for success along the way.
+
+# OTP Example
+
+The `Job.Otp` implementation let's each work try to restart itself somewhere else on the cluster when receiving the `shutdown` message (ie graceful shtudown).
+
+```
+$ iex --name n1@127.0.0.1 --erl '-config sys.config' -S mix 
+$ iex --name n2@127.0.0.1 --erl '-config sys.config' -S mix 
+```
+
+> Note: I don't know why gproc requires you do use the sys.config / joining a cluster at boot rather than at runtime.
+> Additional new nodes attempting to join at runtime will work even if they aren't listed in the sys.config values.
+> But if you start a node without trying to join the cluster at boot it won't share any gproc registrations ¯\_(ツ)\_/¯
+
+Now on each node you can start jobs like `Job.Otp.start("ohai")` and see call the process by running `Job.Otp.check_results("ohai")` on either node.
+You can also gracefully shut down one of the nodes by running something like `:init.stop` or `Application.stop(:available_processes)`.
+All of the jobs on that node will try to re-spawn themselves somewhere else on the cluster before they get shut down.
